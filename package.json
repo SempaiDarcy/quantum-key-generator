@@ -1,0 +1,9 @@
+{
+  "name": "quantom-key-generator",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
+

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Генератор Квантовых Ключей</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+            max-width: 1000px;
+            margin: auto;
+            color: #333;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .header div {
+            max-width: 45%;
+        }
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+            margin-top: 40px;
+            color: #444;
+        }
+        pre {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            transition: background 0.3s ease, transform 0.1s ease;
+        }
+        button:hover {
+            background: #145ca3;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .info-line {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <strong>Старший преподаватель</strong><br>
+        Липатова М.Н.
+    </div>
+    <div style="text-align: right;">
+        <strong>Студент группы ИСТб-21</strong><br>
+        Габдуалиев А.Н.
+    </div>
+</div>
+
+<h1>Генератор Квантовых Ключей</h1>
+<button id="generate">Сгенерировать ключи и подпись</button>
+
+<div class="section">
+    <h2>Инициализационное значение (Seed)</h2>
+    <div class="info-line"><strong>HEX:</strong></div>
+    <pre id="seedHex"></pre>
+    <div class="info-line"><strong>Массив байт:</strong></div>
+    <pre id="seedBytes"></pre>
+</div>
+
+<div class="section">
+    <h2>Расширенное значение</h2>
+    <div class="info-line"><strong>HEX:</strong></div>
+    <pre id="expandedHex"></pre>
+    <div class="info-line"><strong>Массив байт:</strong></div>
+    <pre id="expandedBytes"></pre>
+</div>
+
+<div class="section">
+    <h2>Ключевая пара</h2>
+    <div class="info-line"><strong>Длина приватного ключа:</strong> <span id="privateKeyLength"></span> байт</div>
+    <div class="info-line"><strong>Длина публичного ключа:</strong> <span id="publicKeyLength"></span> байт</div>
+    <div class="info-line"><strong>Приватный ключ (первые 32 байта, HEX):</strong></div>
+    <pre id="privateKeyHex"></pre>
+    <div class="info-line"><strong>Публичный ключ (первые 32 байта, HEX):</strong></div>
+    <pre id="publicKeyHex"></pre>
+</div>
+
+<div class="section">
+    <h2>Случайное сообщение</h2>
+    <div class="info-line"><strong>HEX:</strong></div>
+    <pre id="messageHex"></pre>
+</div>
+
+<div class="section">
+    <h2>Цифровая подпись</h2>
+    <div class="info-line"><strong>Длина подписи:</strong> <span id="signatureLength"></span> байт</div>
+    <div class="info-line"><strong>Подпись (первые 32 байта, HEX):</strong></div>
+    <pre id="signatureHex"></pre>
+</div>
+
+<div class="section">
+    <h2>Проверка подписи</h2>
+    <div class="info-line"><strong>Подпись корректна?:</strong> <span id="isValid"></span></div>
+</div>
+
+<script>
+    const btn = document.getElementById('generate');
+    btn.addEventListener('click', async () => {
+        const res = await fetch('/generate');
+        const out = await res.json();
+        document.getElementById('seedHex').textContent = out.seedHex;
+        document.getElementById('seedBytes').textContent = out.seedBytes.join(", ");
+        document.getElementById('expandedHex').textContent = out.expandedHex;
+        document.getElementById('expandedBytes').textContent = out.expandedBytes.join(", ");
+        document.getElementById('privateKeyLength').textContent = out.privateKeyLength;
+        document.getElementById('publicKeyLength').textContent = out.publicKeyLength;
+        document.getElementById('privateKeyHex').textContent = out.privateKeyHex;
+        document.getElementById('publicKeyHex').textContent = out.publicKeyHex;
+        document.getElementById('messageHex').textContent = out.messageHex;
+        document.getElementById('signatureLength').textContent = out.signatureLength;
+        document.getElementById('signatureHex').textContent = out.signatureHex;
+        document.getElementById('isValid').textContent = out.isValid ? 'Да' : 'Нет';
+    });
+</script>
+</body>
+</html>
